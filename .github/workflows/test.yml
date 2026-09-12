@@ -1,0 +1,45 @@
+name: Test
+
+on:
+  workflow_dispatch:
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Step 1
+        id: step-1
+        run: |
+          sleep 1s
+          echo "a=1" >> "${GITHUB_OUTPUT}"
+
+      - parallel:
+          - name: Step 2
+            id: step-2
+            run: |
+              sleep 1s
+              echo "b=2" >> "${GITHUB_OUTPUT}"
+
+          - name: Step 3
+            id: step-3
+            run: |
+              sleep 1s
+              echo "c=3" >> "${GITHUB_OUTPUT}"
+
+          - name: Step 4
+            id: step-4
+            run: |
+              echo "step 1: ${{ steps.step-1.outputs.a }}"
+              echo "step 2: ${{ steps.step-2.outputs.b }}"
+              echo "step 3: ${{ steps.step-3.outputs.c }}"
+
+      - name: Step 5
+        id: step-5
+        run: |
+          echo "step 1: ${{ steps.step-1.outputs.a }}"
+          echo "step 2: ${{ steps.step-2.outputs.b }}"
+          echo "step 3: ${{ steps.step-3.outputs.c }}"
