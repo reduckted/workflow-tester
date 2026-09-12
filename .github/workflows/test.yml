@@ -31,6 +31,8 @@ jobs:
           sleep 1s
           echo "c=3" >> "${GITHUB_OUTPUT}"
 
+      - wait: step-2
+
       - name: Step 4
         id: step-4
         run: |
